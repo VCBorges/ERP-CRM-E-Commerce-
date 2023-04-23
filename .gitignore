@@ -1,0 +1,5 @@
+personal_project_env/
+.python-version
+.tool-versions
+__pycache__/
+migrations/
