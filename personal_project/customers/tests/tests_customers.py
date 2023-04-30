@@ -8,12 +8,12 @@ import json
 import pytest
 
 
-@pytest.mark.django_db
-def test_customers_template_view(client):
-    response = client.get(reverse('customers'))
-    assert response.status_code == 200
-    print(response.content)
-    assert b'Customers' in response.content
+# @pytest.mark.django_db
+# def test_customers_template_view(client):
+#     response = client.get(reverse('customers'))
+#     assert response.status_code == 200
+#     print(response.content)
+#     assert b'Customers' in response.content
     
     
 

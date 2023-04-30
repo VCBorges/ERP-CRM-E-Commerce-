@@ -1,9 +1,15 @@
 from django import forms
 
+from core.formsmixins import RequestFormMixin
 from customers.models import Customer
 
 
-class CreateCustomerForm(forms.ModelForm):
+
+class CreateCustomerForm(
+    RequestFormMixin,
+    forms.ModelForm
+):
+    
     class Meta:
         model = Customer
         fields = [
@@ -16,16 +22,16 @@ class CreateCustomerForm(forms.ModelForm):
             'website',
         ]
         
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)       
-        super().__init__(*args, **kwargs)
+    # def __init__(self, *args, **kwargs):
+    #     self.request = kwargs.pop('request', None)       
+    #     super().__init__(*args, **kwargs)
     
-    def clean(self):
-        cleaned_data = super().clean()
-        name = cleaned_data.get('name')
-        if not name:
-            raise forms.ValidationError('Name field is required2.')
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     name = cleaned_data.get('name')
+    #     if not name:
+    #         raise forms.ValidationError('Name field is required2.')
+    #     return cleaned_data
     
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -65,7 +71,10 @@ class CreateCustomerForm(forms.ModelForm):
     
         
         
-class UpdateCustomerForm(forms.ModelForm):
+class UpdateCustomerForm(
+    RequestFormMixin,
+    forms.ModelForm
+):
     class Meta:
         model = Customer
         fields = [

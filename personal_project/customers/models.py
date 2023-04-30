@@ -20,3 +20,8 @@ class Customer(TimeStampedModel, StatusModel):
 
     def __str__(self):
         return self.name
+    
+
+# class Sales(TimeStampedModel, StatusModel):
+#     id = models.AutoField(primary_key=True)
+    

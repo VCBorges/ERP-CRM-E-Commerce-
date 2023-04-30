@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.mixins import ListModelMixin
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from core.apiviewsmixins import DataTableAPIView
+from personal_project.core.apiviews import DataTableAPIView
 from employees.models import Employee
 from employees.api.datatable import EmployeeDataTable
 from employees.api.serializers import EmployeeSerializer

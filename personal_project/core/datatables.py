@@ -29,7 +29,7 @@ class DataTableServerSide:
         self._length = 10
         self.order_column = request.POST['order[0][column]']
         self.order_dir = request.POST['order[0][dir]']
-        self.search = ''
+        self.search = request.POST['search[value]']
         self.queryset = queryset
         # self.columns = columns
         # self.searchable_fields = searchable_fields
@@ -96,7 +96,12 @@ class DataTableServerSide:
         return self.queryset
     
     
-    def __response_dict(self, serialized_data: ReturnList, dados_adicionais: dict = None) -> dict:
+    def __response_dict(
+        self,
+        serialized_data: ReturnList,
+        dados_adicionais: dict = None
+    ) -> dict:
+        
         response = {
             'data': serialized_data,
             'draw':self.draw,
@@ -113,7 +118,15 @@ class DataTableServerSide:
         self.queryset = self.queryset.values(*self.columns)
     
     
-    def get_response(self,serialized_data: ReturnList, dados_adicionais: dict = None, index_column: bool = False,  *args, **kwargs) -> dict:
+    def get_response(
+        self,
+        serialized_data: ReturnList,
+        dados_adicionais: dict = None,
+        index_column: bool = False, 
+        *args, 
+        **kwargs
+    ) -> dict:
+        
         self.__get_columns()
         self.__search_filter()
         if self.extra_filters:

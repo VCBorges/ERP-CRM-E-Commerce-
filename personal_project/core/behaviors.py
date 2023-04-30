@@ -13,6 +13,7 @@ class TimeStampedModel(models.Model):
         abstract = True
         
         
+        
 class StatusModel(models.Model):
 
     '''

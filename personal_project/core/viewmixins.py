@@ -6,6 +6,10 @@ from django.http import QueryDict
 from core.utils import get_form_errors
 
 
+import traceback
+
+
+
 class RegularTemplateViewMixin:
     
     def get_context_data(self, **kwargs):
@@ -17,37 +21,73 @@ class RegularTemplateViewMixin:
 class RegularModelFormSubmissionViewMixin:
     
     form_class: ModelForm = None
-    form_valid_message: str = None
-    form_invalid_message: str = None
+    valid_form_message: str = None
+    invalid_form_message: str = None
     server_error_message: str = 'There was an error processing your request. Please try again later.'
 
-    def form_methods_mixin(self, methods: list[str]):
-        pass
+    def get_response(
+        self,
+        status: int,
+        message:str, 
+        errors=None, 
+        *args, 
+        **kwargs
+    ) -> dict:
+        
+        response = {
+            'status': status,
+            'message': message,
+        }
+        
+        if errors:
+            response['errors'] = errors
+        
+        return response
+    
+    
+    def form_methods(self, form: ModelForm, *args, **kwargs) -> bool:
+        form.save()
+        return True
+    
+    
+    
+    def form_instantiation(self, request: QueryDict, *args, **kwargs) -> ModelForm | Form:
+        form: ModelForm = self.form_class(
+            request.POST,
+            request=request
+        )
 
-    def form_valid_mixin(self, form: ModelForm | Form, *args, **kwargs) -> dict:
+        return form
+    
+        
+
+    def valid_form_response(self, form: ModelForm | Form, *args, **kwargs) -> dict:
         if form.is_valid():
-            form.save()
-            response = {
-                'status': 200,
-                'message': self.form_valid_message
-            }
+
+            self.form_methods(form)
+            
+            response = self.get_response(
+                status=200,
+                message=self.valid_form_message,
+            )
             return response
      
-     
+
         
-    def form_invalid_mixin(self, form: ModelForm | Form, *args, **kwargs) -> dict:
+    def invalid_form_response(self, form: ModelForm | Form, *args, **kwargs) -> dict:
         if not form.is_valid():
             errors = get_form_errors(form)
-            response = {
-                'status': 400,
-                'message': self.form_invalid_message,
-                'errors': errors
-            }
+
+            response = self.get_response(
+                status=400,
+                message=self.invalid_form_message,
+                errors=errors
+            )
             return response
         
     
     
-    def form_server_error_mixin(self, *args, **kwargs) -> dict:
+    def server_error_response(self, *args, **kwargs) -> dict:
         response = {
             'status': 500,
             'message': self.server_error_message
@@ -57,13 +97,19 @@ class RegularModelFormSubmissionViewMixin:
     
     
     def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
-        form: ModelForm = self.form_class(request.POST, request=request)
+        self.request = request
+        form = self.form_instantiation(request)
+            
         try:
             if form.is_valid():
-                response = self.form_valid_mixin(form)
+                response = self.valid_form_response(form)
             else:
-                response = self.form_invalid_mixin(form)
+                response = self.invalid_form_response(form)
         except Exception as e:
-            response = self.form_server_error_mixin()
+            print(e)
+            
+            traceback.print_exc()
+            
+            response = self.server_error_response()
         finally:
             return JsonResponse(response)

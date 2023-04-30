@@ -8,7 +8,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from customers.models import Customer
 from customers.api.datatable import CustomerDataTable
 from customers.api.serializers import CustomerSerializer
-from core.apiviewsmixins import DataTableAPIView
+from core.apiviews import DataTableAPIView
 
 
 class CustomerDataTableAPIView(DataTableAPIView):

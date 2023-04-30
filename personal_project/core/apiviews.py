@@ -8,6 +8,7 @@ from core.datatables import DataTableServerSide
 from core.datatables import DataTableServerSideDRF
 
 
+
 class DataTableAPIView(ListModelMixin, GenericAPIView):
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
     # permission_classes = [IsAuthenticated]
