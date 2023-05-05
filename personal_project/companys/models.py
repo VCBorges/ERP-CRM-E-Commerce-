@@ -12,7 +12,8 @@ class Company(TimeStampedModel, StatusModel):
     address = models.CharField('Company Address', max_length=255, null=True, blank=True)
     website = models.CharField('Company Website', max_length=255, null=True, blank=True)
     document = models.CharField('Company Document', max_length=255, null=True, blank=True)
-    # logo = models.ImageField('Company Logo', upload_to='company_logo', blank=True, null=True)
+    Industry = models.CharField('Company Industry', max_length=255, null=True, blank=True)
+    size = models.CharField('Company Size', max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name

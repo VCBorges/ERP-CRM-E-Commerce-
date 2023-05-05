@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+# from django.http import HttpResponseBadRequest, HttpResponseServerError
 from django.forms import ModelForm
 from django.forms import Form
 from django.http import QueryDict
@@ -25,8 +26,10 @@ class RegularModelFormSubmissionViewMixin:
     invalid_form_message: str = None
     server_error_message: str = 'There was an error processing your request. Please try again later.'
 
+
+    @staticmethod
     def get_response(
-        self,
+        # self,
         status: int,
         message:str, 
         errors=None, 
@@ -38,11 +41,10 @@ class RegularModelFormSubmissionViewMixin:
             'status': status,
             'message': message,
         }
-        
         if errors:
             response['errors'] = errors
-        
         return response
+    
     
     
     def form_methods(self, form: ModelForm, *args, **kwargs) -> bool:
@@ -56,7 +58,6 @@ class RegularModelFormSubmissionViewMixin:
             request.POST,
             request=request
         )
-
         return form
     
         
@@ -93,23 +94,33 @@ class RegularModelFormSubmissionViewMixin:
             'message': self.server_error_message
         }
         return response
-        
+
+
+    @staticmethod
+    def status_code_response(status_code: int) -> dict[str, int]:
+        response = {'status': status_code}
+        return response
+    
     
     
     def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
         self.request = request
         form = self.form_instantiation(request)
-            
+        # print(form)
         try:
             if form.is_valid():
+                print(form.cleaned_data)
                 response = self.valid_form_response(form)
+                status = self.status_code_response(200)
             else:
+                print(form.errors)
                 response = self.invalid_form_response(form)
+                status = self.status_code_response(400)
         except Exception as e:
             print(e)
-            
             traceback.print_exc()
             
             response = self.server_error_response()
+            status = self.status_code_response(500)
         finally:
-            return JsonResponse(response)
+            return JsonResponse(response, **status)

@@ -15,8 +15,6 @@ class DataTableServerSide:
         self,
         request: QueryDict,
         queryset: QuerySet[Model],
-        # columns: list[str],
-        # searchable_fields: list[str],
         extra_filters: dict[str, str] = None,
         index_column: bool = False,
         *args,
@@ -31,8 +29,6 @@ class DataTableServerSide:
         self.order_dir = request.POST['order[0][dir]']
         self.search = request.POST['search[value]']
         self.queryset = queryset
-        # self.columns = columns
-        # self.searchable_fields = searchable_fields
         self.extra_filters = extra_filters
         self.index_column = index_column
         self.total = None
@@ -114,8 +110,11 @@ class DataTableServerSide:
         
         return response
     
+    
+    
     def __get_columns(self):
         self.queryset = self.queryset.values(*self.columns)
+    
     
     
     def get_response(

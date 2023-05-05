@@ -4,20 +4,20 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from allauth.account.forms import LoginForm
 from allauth.account.forms import SignupForm
-
 from django.contrib.auth.views import LogoutView
-
 
 from core.viewmixins import RegularModelFormSubmissionViewMixin
 from core.views import ModelFormSubmissionView
-
+from users.forms import CreateUserForm
 
 
 class UserRegistrationView(ModelFormSubmissionView):
     
-    form_class = SignupForm
+    form_class = CreateUserForm
     valid_form_message = 'User created successfully.'
     invalid_form_message = 'There was an error creating the user. Please try again later.'
+    
+    
     
     @method_decorator(csrf_exempt)
     def dispatch(self,*args, **kwargs):
@@ -58,9 +58,10 @@ class UserLoginView(ModelFormSubmissionView):
         form.login(
             self.request,
         )
-        # self.request.session['teste'] = 'teste'
         return True
     
+
+
 
 class UserLogoutView(LogoutView):
     pass

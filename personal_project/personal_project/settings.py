@@ -159,3 +159,7 @@ ACCOUNT_USERNAME_REQUIRED = False # new
 ACCOUNT_AUTHENTICATION_METHOD = 'email' # new
 ACCOUNT_EMAIL_REQUIRED = True # new
 ACCOUNT_UNIQUE_EMAIL = True # new
+
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.CreateUserForm'
+}

@@ -27,6 +27,7 @@ class CreateEmployeeRoleForm(forms.ModelForm):
         model = EmployeeRoles
         fields = [
             'name',
+            'description',
         ]
         
         
