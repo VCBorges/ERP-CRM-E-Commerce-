@@ -6,7 +6,7 @@ from core.behaviors import TimeStampedModel
 from core.behaviors import StatusModel
 from companys.models import Company
 
-# user = get_user_model()
+user = get_user_model()
 
 class EmployeeRoles(TimeStampedModel):
     id = models.AutoField(primary_key=True)

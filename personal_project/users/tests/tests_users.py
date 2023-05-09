@@ -41,8 +41,12 @@ def test_user_registration_view(client):
         set_session_middleware(request)
     )
     
-    user = User.objects.get(email='unittest@test.com')
+    del form_data['password1']
+    
+    user = User.objects.get(**form_data)
+    
     response_data = json.loads(response.content.decode('utf-8'))
+    
     assert response.status_code == 200
     assert response_data['message'] == 'User created successfully.'
     assert user.email == 'unittest@test.com'
@@ -58,4 +62,3 @@ def test_user_registration_view(client):
     assert user.country == 'unittest'
     assert user.gender == 'unittest'
     assert user.birthday == datetime.date(1990, 1, 1)
-    

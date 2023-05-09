@@ -43,6 +43,7 @@ class RegularModelFormSubmissionViewMixin:
         }
         if errors:
             response['errors'] = errors
+            
         return response
     
     
@@ -106,7 +107,6 @@ class RegularModelFormSubmissionViewMixin:
     def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
         self.request = request
         form = self.form_instantiation(request)
-        # print(form)
         try:
             if form.is_valid():
                 print(form.cleaned_data)

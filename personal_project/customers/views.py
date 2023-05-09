@@ -27,6 +27,7 @@ class CustomerCreateView(ModelFormSubmissionView):
         # print(request.session['teste'])
         return super().dispatch(request, *args, **kwargs)
     
+    
     def form_methods(self, form) -> list[str]:
         self.teste = 'teste'
         return super().form_methods(form)
