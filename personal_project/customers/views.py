@@ -4,19 +4,24 @@ from django.utils.decorators import method_decorator
 
 from core.viewmixins import RegularTemplateViewMixin
 from core.views import ModelFormSubmissionView
-from customers.forms import CreateCustomerForm
+from customers.forms import CreateCustomerForm, UpdateCustomerForm
+
+from core.views import (
+    CreateRequestModelFormView,
+    UpdateRequestModelFormView
+)
 
 
 
 class CustomerTemplateView(RegularTemplateViewMixin, TemplateView):
     
     template_name = 'customers/customers.html'
-    
-    # def get_context_data(self, **kwargs):
-    #     return super().get_context_data(**kwargs)
 
 
-class CustomerCreateView(ModelFormSubmissionView):
+
+
+
+class CustomerCreateView3(ModelFormSubmissionView):
 
     form_class = CreateCustomerForm
     valid_form_message = 'Customer created successfully.'
@@ -37,3 +42,20 @@ class CustomerCreateView(ModelFormSubmissionView):
         response = super().valid_form_response(form, *args, **kwargs)
         response['teste'] = self.teste
         return response
+    
+    
+    
+    
+    
+class CustomerCreateView(CreateRequestModelFormView):
+    form_class = CreateCustomerForm
+    valid_form_message = 'Customer created successfully.'
+    invalid_form_message = 'There was an error creating the customer. Please try again later.'
+    
+    
+
+
+class CustomerUpdateView(UpdateRequestModelFormView):
+    form_class = UpdateCustomerForm
+    valid_form_message = 'Customer updated successfully.'
+    invalid_form_message = 'There was an error updating the customer. Please try again later.'

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from allauth.account.forms import SignupForm
+from core.utils import set_fields_model_instance
 
 
 
@@ -22,15 +23,10 @@ class CreateUserForm(SignupForm):
     
     def save(self, request):
         user = super().save(request)
-        user.middle_name = self.cleaned_data.get('middle_name')
-        user.document = self.cleaned_data.get('document')
-        user.phone = self.cleaned_data.get('phone')
-        user.street = self.cleaned_data.get('street')
-        user.number = self.cleaned_data.get('number')
-        user.city = self.cleaned_data.get('city')
-        user.state = self.cleaned_data.get('state')
-        user.country = self.cleaned_data.get('country')
-        user.gender = self.cleaned_data.get('gender')
-        user.birthday = self.cleaned_data.get('birthday')
+        cleaned_data = self.cleaned_data
+        set_fields_model_instance(
+            instance=user, 
+            cleaned_data=cleaned_data
+        )
         user.save()
         return user

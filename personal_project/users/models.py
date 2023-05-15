@@ -13,6 +13,7 @@ class User(AbstractUser):
     city = models.CharField('User City', max_length=255, null=True, blank=True)
     state = models.CharField('User State', max_length=255, null=True, blank=True)
     country = models.CharField('User Country', max_length=255, null=True, blank=True)
+    postal_code = models.CharField('User Postal Code', max_length=255, null=True, blank=True)
     gender = models.CharField('User Gender', max_length=255, null=True, blank=True)
     birthday = models.DateField('User Birthday', null=True, blank=True)
     

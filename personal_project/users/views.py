@@ -11,6 +11,7 @@ from core.views import ModelFormSubmissionView
 from users.forms import CreateUserForm
 
 
+
 class UserRegistrationView(ModelFormSubmissionView):
     
     form_class = CreateUserForm

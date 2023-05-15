@@ -1,7 +1,10 @@
+from typing import Any, Dict
 from django import forms
 
 from core.formsmixins import RequestFormMixin
+from core.formsmixins import UpdateRequestFormMixin
 from customers.models import Customer
+from core.utils import set_model_instance_fields
 
 
 
@@ -72,7 +75,7 @@ class CreateCustomerForm(
         
         
 class UpdateCustomerForm(
-    RequestFormMixin,
+    UpdateRequestFormMixin,
     forms.ModelForm
 ):
     class Meta:
@@ -84,3 +87,30 @@ class UpdateCustomerForm(
             'address',
             'document',
         ]
+    
+    
+    # def clean(self) -> Dict[str, Any]:
+    #     cleaned_data = super().clean()
+    #     try:
+    #         self.instance = Customer.objects.get(
+    #             pk=self.pk
+    #         )
+    #     except Customer.DoesNotExist:
+    #         raise forms.ValidationError('Customer does not exist.')
+    #     return cleaned_data
+    
+    
+    # def save(self, commit: bool = True):
+    #     instance = Customer.objects.get(pk=self.pk)
+    #     set_instance_updated_fields(
+    #         instance=instance, 
+    #         cleaned_data=self.cleaned_data
+    #     )
+    #     if commit:
+    #         instance.save()
+            
+    #     return instance
+        
+        
+        
+        

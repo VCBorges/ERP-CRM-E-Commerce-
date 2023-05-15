@@ -21,7 +21,9 @@ class Customer(TimeStampedModel, StatusModel):
     def __str__(self):
         return self.name
     
-
+    class Meta:
+        verbose_name = 'customer'
+    
 # class Sales(TimeStampedModel, StatusModel):
 #     id = models.AutoField(primary_key=True)
     

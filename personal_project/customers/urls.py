@@ -1,10 +1,10 @@
 from django.urls import path, include
-from customers.views import CustomerCreateView
-from customers.views import CustomerTemplateView
+from customers import views
 
 urlpatterns = [
     path('api/', include('customers.api.urls')),
      
-    path('', CustomerTemplateView.as_view(), name='customers'),
-    path('create/', CustomerCreateView.as_view(), name='create_customer'),
+    path('', views.CustomerTemplateView.as_view(), name='customers'),
+    path('create/', views.CustomerCreateView.as_view(), name='create_customer'),
+    path('update/<int:pk>/', views.CustomerUpdateView.as_view(), name='update_customer'),
 ]
