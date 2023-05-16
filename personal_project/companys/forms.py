@@ -12,6 +12,8 @@ class CreateCompanyForm(forms.ModelForm):
             'phone',
             'address',
             'website',
-            'document'
+            'document',
+            'industry',
+            'size',
         ]
         

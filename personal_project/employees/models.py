@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 
 from personal_project.settings import AUTH_USER_MODEL
 from core.behaviors import TimeStampedModel
-from core.behaviors import StatusModel
 from companys.models import Company
 
 user = get_user_model()
@@ -22,7 +21,7 @@ class EmployeeRoles(TimeStampedModel):
 
 
 
-class Employee(TimeStampedModel, StatusModel):
+class Employee(TimeStampedModel):
     id = models.AutoField(primary_key=True)
     work_phone = models.CharField('Employee Phone', max_length=255, null=True, blank=True)
     work_email = models.CharField('Employee Email', max_length=255, null=True, blank=True)

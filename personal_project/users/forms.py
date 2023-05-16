@@ -20,7 +20,6 @@ class CreateUserForm(SignupForm):
     birthday = forms.DateField(required=False)
     gender = forms.CharField(required=False)
     
-    
     def save(self, request):
         user = super().save(request)
         cleaned_data = self.cleaned_data

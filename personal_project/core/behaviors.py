@@ -14,17 +14,18 @@ class TimeStampedModel(models.Model):
         
         
         
-class StatusModel(models.Model):
+# class StatusModel(models.Model):
 
-    '''
-    Abstract base class model that provides status
-    '''
+#     '''
+#     Abstract base class model that provides status
+#     '''
     
-    STATUS_CHOICES = None
-    status_verbose = None
+#     status = None
+#     STATUS_CHOICES = None
+#     status_verbose_name = 'Status'
 
-    status = models.CharField(verbose_name='Status', max_length=30, choices=STATUS_CHOICES, blank=True, null=True)
+#     status = models.CharField(verbose_name=status_verbose_name, default=default_status, max_length=30, choices=STATUS_CHOICES, blank=True, null=True)
 
-    class Meta:
-        abstract = True
+#     class Meta:
+#         abstract = True
         

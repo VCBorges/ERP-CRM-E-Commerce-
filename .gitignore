@@ -28,3 +28,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+personal_project/frontend/package-lock.json
+personal_project/frontend/package.json
