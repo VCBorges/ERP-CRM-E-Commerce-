@@ -1,8 +1,9 @@
 from django.urls import reverse
 from django.test import RequestFactory
 from django.contrib.sessions.middleware import SessionMiddleware
-from users.models import User
 
+from users.models import User
+from employees.models import Employee
 from core.factories import set_session_middleware
 from users import views
 
@@ -44,6 +45,7 @@ def test_user_registration_view(client):
     del form_data['password1']
     
     user = User.objects.get(**form_data)
+    employee = Employee.objects.get(user=user)
     
     response_data = json.loads(response.content.decode('utf-8'))
     
@@ -62,3 +64,6 @@ def test_user_registration_view(client):
     assert user.country == 'unittest'
     assert user.gender == 'unittest'
     assert user.birthday == datetime.date(1990, 1, 1)
+    
+    assert employee.work_email == 'unittest@test.com'
+    assert employee.work_phone == '123456789'

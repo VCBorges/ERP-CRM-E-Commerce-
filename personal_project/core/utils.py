@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django.forms import Form
 from django.db.models import Model
 
-
+from datetime import datetime
 
 def get_form_errors(form: ModelForm | Form) -> list[str]:
     
@@ -47,3 +47,9 @@ def set_fields_model_instance(instance: Model, cleaned_data: dict, *args, **kwar
             setattr(instance, key, value)
         
         
+def get_today() -> datetime:
+    return datetime.today()
+
+
+def get_now() -> datetime:
+    return datetime.now()

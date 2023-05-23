@@ -160,7 +160,7 @@ class BaseFormViewMixin:
     def form_methods(self, form: ModelForm, *args, **kwargs) -> None:
         return 
     
-    
+    # def get_form(self, *args, **kwargs) -> ModelForm | Form:
     def form_instantiation(self, *args, **kwargs) -> ModelForm | Form:
         form: ModelForm = self.form_class(
             **self.get_form_kwargs()
@@ -274,15 +274,3 @@ class CsrfExemptMixin:
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)    
-
-    
-
-
-
-
-    
-    
-    
-
-
-

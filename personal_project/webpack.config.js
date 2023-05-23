@@ -20,5 +20,8 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
     ]
-  }
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'], // Allow importing modules without specifying extensions
+  },
 };

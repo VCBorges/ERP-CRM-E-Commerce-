@@ -1,34 +1,31 @@
 from django import forms
 
-from employees.models import Employee
+from core.formsmixins import RequestFormMixin
 from employees.models import EmployeeRoles
+from users.utils import (
+    get_user_company_from_request,
+)
 
 
-class CreateEmployeeForm(forms.ModelForm):
-    class Meta:
-        model = Employee
-        fields = [
-            'name',
-        ]
         
-        
-        
-class UpdateEmployeeForm(forms.ModelForm):
-    class Meta:
-        model = Employee
-        fields = [
-            'name',
-        ]
         
         
 
-class CreateEmployeeRoleForm(forms.ModelForm):
+class CreateEmployeeRoleForm(RequestFormMixin, forms.ModelForm):
     class Meta:
         model = EmployeeRoles
         fields = [
             'name',
             'description',
         ]
+        
+        
+    def save(self, commit: bool = True):
+        role = super().save(commit=False)
+        role.company = get_user_company_from_request(self.request)
+        if commit:
+            role.save()
+        return role
         
         
         

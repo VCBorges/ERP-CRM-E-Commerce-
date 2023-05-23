@@ -1,4 +1,4 @@
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 
 from core.viewmixins import RegularModelFormSubmissionViewMixin
 from core.viewmixins import RegularTemplateViewMixin
@@ -38,4 +38,9 @@ class UpdateRequestModelFormView(
     BaseFormViewMixin,
     View
 ):
+    pass
+
+
+
+class BaseTemplateView(RegularTemplateViewMixin, TemplateView):
     pass
