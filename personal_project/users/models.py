@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from users.managers import AdministratorManager, MemberManager
+from employees.models import Employee
+from companys.models import Company
 
 
 import datetime
@@ -26,15 +28,34 @@ class User(AbstractUser):
     birthday = models.DateField('User Birthday', null=True, blank=True)
     group = models.CharField('User Group', max_length=255, null=True, blank=True, choices=Groups.choices, default=Groups.MEMBER)
     
-    def get_full_name(self):
+    @property
+    def full_name(self):
         return f'{self.first_name} {self.middle_name or ""} {self.last_name}'
     
-    def get_age(self):
+    @property
+    def age(self):
         today = datetime.date.today()
         return today.year - self.birthday.year - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
     
+    @property
+    def employee(self) -> Employee | None:
+        try:
+            return self.employee
+        except Employee.DoesNotExist:
+            return None
+    
+    @property
+    def root_company(self) -> Company | None:
+        try:
+            return self.company
+        except Company.DoesNotExist:
+            return None
     
     
+    def is_root(self) -> bool:
+        return self.root_company is not None
+    
+
     
 class Administrator(User):
     

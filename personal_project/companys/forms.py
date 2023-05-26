@@ -1,13 +1,12 @@
 from django import forms
 from django.db import transaction
 
-
 from core.formsmixins import RequestFormMixin
 from companys.models import Company
 from users.utils import (
-    set_employees_company,
-    user_has_company,
-    get_user_from_request,
+    set_employee_company,
+    user_is_root,
+    employee_has_company,
 )
 
 
@@ -39,9 +38,13 @@ class CreateCompanyForm(
         
     def clean(self) -> Dict[str, Any]:
         cleaned_data =  super().clean()
-        if user_has_company(self.request):
+        if user_is_root(self.request):
             raise forms.ValidationError(
-                'User already has a company'
+                'User already is company root'
+            )
+        if employee_has_company(self.request):
+            raise forms.ValidationError(
+                'Employee already has a company'
             )
         return cleaned_data
         
@@ -49,10 +52,10 @@ class CreateCompanyForm(
     
     def save(self, commit: bool = True) -> Company:
         company: Company = super().save(commit=False)
-        company.root = get_user_from_request(self.request)
-        employee = set_employees_company(
-            self.request,
-            company
+        company.set_root(self.request.user)
+        employee = set_employee_company(
+            request=self.request,
+            company=company
         )
         if commit:
             with transaction.atomic():

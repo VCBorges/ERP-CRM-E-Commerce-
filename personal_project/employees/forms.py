@@ -3,11 +3,9 @@ from django import forms
 from core.formsmixins import RequestFormMixin
 from employees.models import EmployeeRoles
 from users.utils import (
-    get_user_company_from_request,
+    get_root_user_company_from_request,
+    get_user_from_request,
 )
-
-
-        
         
         
 
@@ -20,9 +18,10 @@ class CreateEmployeeRoleForm(RequestFormMixin, forms.ModelForm):
         ]
         
         
-    def save(self, commit: bool = True):
-        role = super().save(commit=False)
-        role.company = get_user_company_from_request(self.request)
+    def save(self, commit: bool = True) -> EmployeeRoles:
+        role: EmployeeRoles = super().save(commit=False)
+        role.set_company(self.request)
+        role.set_created_by(self.request)
         if commit:
             role.save()
         return role

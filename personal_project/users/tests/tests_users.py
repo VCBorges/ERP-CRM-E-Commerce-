@@ -16,7 +16,7 @@ import datetime
 
 
 @pytest.mark.django_db
-def test_user_registration_view(client):
+def test_user_create_view(client):
     factory = RequestFactory()
 
     form_data = {

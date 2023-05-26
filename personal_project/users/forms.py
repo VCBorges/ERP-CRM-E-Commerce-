@@ -29,10 +29,9 @@ class CreateUserForm(SignupForm):
     
     def save(self, request):
         user = super().save(request)
-        cleaned_data = self.cleaned_data
         set_fields_model_instance(
             instance=user, 
-            cleaned_data=cleaned_data
+            cleaned_data=self.cleaned_data
         )
         employee = Employee(
             work_phone=user.phone,

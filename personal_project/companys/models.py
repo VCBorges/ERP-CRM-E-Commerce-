@@ -1,4 +1,5 @@
 from django.db import models
+from django.http import HttpRequest
 
 from core.behaviors import TimeStampedModel
 from personal_project.settings import AUTH_USER_MODEL
@@ -26,5 +27,9 @@ class Company(TimeStampedModel):
     def __str__(self):
         return self.name
     
+    def set_root(self, request: HttpRequest) -> None:
+        if self.root is not None:
+            raise Exception('Company root already been set')
+        self.root = request.user
     
-# class CompanyIn
+    

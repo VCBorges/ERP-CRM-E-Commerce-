@@ -4,5 +4,5 @@ from employees.views import CreateEmployeeRoleView
 
 urlpatterns = [
     path('', EmployeeTemplateView.as_view(), name='employees'),
-    path('create-role/', CreateEmployeeRoleView.as_view(), name='create_employee_role'),
+    path('create/', CreateEmployeeRoleView.as_view(), name='create_employee_role'),
 ]

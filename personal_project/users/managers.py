@@ -1,14 +1,15 @@
 from django.db import models
-
-from personal_project.settings import AUTH_USER_MODEL
+from django.contrib.auth import get_user_model
 
 
 
 class AdministratorManager(models.Manager):
+
     
     def get_queryset(self, *args, **kwargs):
+        from users.models import User
         result = super().get_queryset(*args, **kwargs)
-        return result.filter(group=AUTH_USER_MODEL.Groups.ADMINISTRATOR)
+        return result.filter(group=User.Groups.ADMINISTRATOR)
     
     
 
@@ -16,6 +17,7 @@ class AdministratorManager(models.Manager):
 class MemberManager(models.Manager):
     
     def get_queryset(self, *args, **kwargs):
+        from users.models import User
         result = super().get_queryset(*args, **kwargs)
-        return result.filter(group=AUTH_USER_MODEL.Groups.MEMBER)
+        return result.filter(group=User.Groups.MEMBER)
     

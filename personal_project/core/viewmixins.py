@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.forms import formset_factory
 # from django.http import HttpResponseBadRequest, HttpResponseServerError
 
 from django.forms import ModelForm
@@ -230,7 +231,32 @@ class BaseFormViewMixin:
         finally:
             return JsonResponse(response, **status)
         
-        
+
+
+# class BaseFormSetViewMixin:
+
+#     formset_extra: int = 0
+    
+#     def get_form_kwargs(self, *args, **kwargs) -> dict:
+#         kwargs['data'] = self.request.POST
+#         return kwargs
+
+#     def form_instantiation(self, *args, **kwargs) -> ModelForm | Form:
+#         form = formset_factory(self.form_class, extra=self.formset_extra)
+#         # FormSet = formset_factory(self.form_class, extra=self.formset_extra)
+#         return form
+
+#     def valid_form_response(self, form: ModelForm | Form, *args, **kwargs) -> dict:
+#         if form.is_valid():
+#             for form1 in form:
+#                 self.form_methods(form1)
+#             response = self.get_response(
+#                 status=200,
+#                 message=self.valid_form_message,
+#             )
+#             return response
+    
+
     
 
 class RequestFormViewMixin:
