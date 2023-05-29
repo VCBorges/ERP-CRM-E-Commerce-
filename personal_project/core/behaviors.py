@@ -1,27 +1,23 @@
 from django.db import models
 
-# from employees.models import Employee
+
 
 class TimeStampedModel(models.Model):
-
-    '''
+    """
     Abstract base class model that provides self-updating
-    '''
-
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    """
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    modified_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
         abstract = True
         
         
         
-class AdressModel:
-
+class AdressModel(models.Model):
     """
     Abstract base class model that provides address
     """
-    
     street = models.CharField(max_length=255, null=True, blank=True)
     number = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)
@@ -33,13 +29,13 @@ class AdressModel:
         abstract = True
 
 
-class CreatedByModel:
 
+class CreatedByModel(models.Model):
     """
     Abstract base class model that provides created by
     """
-
     created_by = models.OneToOneField('employees.Employee', on_delete=models.CASCADE, related_name='created_by', null=True, blank=True)
+    modified_by = models.OneToOneField('employees.Employee', on_delete=models.CASCADE, related_name='modified_by', null=True, blank=True)
 
     class Meta:
         abstract = True

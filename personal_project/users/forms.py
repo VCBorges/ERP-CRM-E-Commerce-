@@ -29,15 +29,17 @@ class CreateUserForm(SignupForm):
     
     def save(self, request):
         user = super().save(request)
-        set_fields_model_instance(
-            instance=user, 
-            cleaned_data=self.cleaned_data
-        )
-        employee = Employee(
-            work_phone=user.phone,
-            work_email=user.email,
-            user=user
-        )
-        user.save()
-        employee.save()
+        try:
+            set_fields_model_instance(
+                instance=user, 
+                cleaned_data=self.cleaned_data
+            )
+            employee = Employee.objects.create(
+                user=user,
+            )
+            user.save()
+            employee.save()
+        except:
+            user.delete()
+            raise Exception("Error creating user.")
         return user

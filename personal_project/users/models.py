@@ -16,7 +16,7 @@ class User(AbstractUser):
         MEMBER = 'member', 'Member'
     
     middle_name = models.CharField('User Middle Name', max_length=255, null=True, blank=True)
-    document = models.CharField('User Document', max_length=255, null=True, blank=True)
+    document = models.CharField('User Document', max_length=255, null=True, blank=True, unique=True)
     phone = models.CharField('User Phone', max_length=255, null=True, blank=True)
     street = models.CharField('User Street', max_length=255, null=True, blank=True)
     number = models.CharField('User Number', max_length=255, null=True, blank=True)
@@ -26,6 +26,8 @@ class User(AbstractUser):
     postal_code = models.CharField('User Postal Code', max_length=255, null=True, blank=True)
     gender = models.CharField('User Gender', max_length=255, null=True, blank=True)
     birthday = models.DateField('User Birthday', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    modified_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     group = models.CharField('User Group', max_length=255, null=True, blank=True, choices=Groups.choices, default=Groups.MEMBER)
     
     @property
@@ -37,12 +39,6 @@ class User(AbstractUser):
         today = datetime.date.today()
         return today.year - self.birthday.year - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
     
-    @property
-    def employee(self) -> Employee | None:
-        try:
-            return self.employee
-        except Employee.DoesNotExist:
-            return None
     
     @property
     def root_company(self) -> Company | None:

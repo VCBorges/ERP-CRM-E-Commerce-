@@ -4,7 +4,10 @@ from django.contrib.sessions.middleware import SessionMiddleware
 
 from users.models import User
 from employees.models import Employee
-from core.factories import set_session_middleware
+from core.factories import (
+    set_session_middleware,
+    get_test_view_response,
+)
 from users import views
 
 
@@ -38,8 +41,9 @@ def test_user_create_view(client):
 
     request = factory.post(reverse('register'), data=form_data)
 
-    response = views.UserRegistrationView.as_view()(
-        set_session_middleware(request)
+    response = get_test_view_response(
+        view=views.UserRegistrationView,
+        request=request,
     )
     
     del form_data['password1']
@@ -67,3 +71,4 @@ def test_user_create_view(client):
     
     assert employee.work_email == 'unittest@test.com'
     assert employee.work_phone == '123456789'
+    assert employee.user == user

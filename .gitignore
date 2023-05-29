@@ -30,3 +30,7 @@ dist-ssr
 *.sw?
 personal_project/frontend/package-lock.json
 personal_project/frontend/package.json
+others/schema.sql
+.gitignore
+personal_project/db.sqlite3
+pg.py
