@@ -53,6 +53,7 @@ class User(AbstractUser):
     
 
     
+    
 class Administrator(User):
     
     objects = AdministratorManager()

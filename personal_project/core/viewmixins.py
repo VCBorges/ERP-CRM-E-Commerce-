@@ -2,12 +2,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.forms import formset_factory
-# from django.http import HttpResponseBadRequest, HttpResponseServerError
+from django.http import HttpResponseBadRequest, HttpResponseServerError
 
 from django.forms import ModelForm
 from django.forms import Form
 from django.http import QueryDict
-from django.views.generic import UpdateView
 
 from core.utils import get_form_errors
 
@@ -85,7 +84,7 @@ class BaseFormViewMixin:
             return response
         
     
-    def server_error(self, exception, *args, **kwargs) -> dict:
+    def server_error(self, exception: dict, *args, **kwargs) -> dict:
         response = self.get_response(
             status=500,
             message=self.server_error_message,
@@ -101,6 +100,7 @@ class BaseFormViewMixin:
     
     
     def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
+        # print(f'request post {request.POST}')
         self.request = request
         form = self.get_form()
         try:
@@ -118,57 +118,37 @@ class BaseFormViewMixin:
             response = self.server_error(
                 exception={
                     'error': str(e)
-                    }
+                }
             )
             status = self.status_code_response(500)
         finally:
             return JsonResponse(response, **status)
         
-    
-
-class RequestFormKwargsMixin:
-    def get_form_kwargs(self, *args, **kwargs) -> dict:
-        kwargs['data'] = self.request.POST
-        kwargs['request'] = self.request
-        return kwargs
-    
-    
-    
-class RequestFilesFormKwargsMixin:
-    def get_form_kwargs(self, *args, **kwargs) -> dict:
-        kwargs['data'] = self.request.POST
-        kwargs['files'] = self.request.FILES
-        kwargs['request'] = self.request
-        return kwargs    
-    
-    
+        
     
 class BaseUpdateFormViewMixin:
     
     def get_form_kwargs(self, *args, **kwargs) -> dict:
-        kwargs['data'] = self.request.POST
         kwargs['pk'] = self.pk
-        return kwargs
-    
+        return super.get_form_kwargs(self, *args, **kwargs)
     
     def post(self, request: QueryDict, pk, *args, **kwargs):
         self.pk = pk
-        return super().post(request, pk, *args, **kwargs)
+        return self.post(request, pk, *args, **kwargs)
     
     
+
+class RequestFormKwargsMixin:
+    def get_form_kwargs(self, *args, **kwargs) -> dict:
+        kwargs['request'] = self.request
+        return super().get_form_kwargs(*args, **kwargs)
     
+       
+
 class ModelFormMethodsMixin:
     def form_methods(self, form: ModelForm, *args, **kwargs) -> bool:
         form.save()
         return True
-
-
-
-class UpdateResquestFormKwargsMixin:
-    def get_form_kwargs(self, *args, **kwargs) -> dict:
-        kwargs = super().get_form_kwargs()    
-        kwargs['request'] = self.request
-        return kwargs
 
     
 

@@ -2,9 +2,13 @@ from django import forms
 from core.utils import get_model_verbose_name
 from core.utils import set_model_instance_fields
 
+from django.views.generic import UpdateView
 
 
-class RequestFormMixin:
+
+
+
+class RequestKwargFormMixin:
     
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)       
@@ -12,13 +16,12 @@ class RequestFormMixin:
         
         
 
-class UpdateRequestFormMixin:
+
+class PkRequestKwargsFormMixin(RequestKwargFormMixin):
     
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)       
         self.pk = kwargs.pop('pk', None)
         super().__init__(*args, **kwargs)
-    
     
         
     def clean(self):

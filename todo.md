@@ -1,16 +1,24 @@
-(A) - personal_project/core/datatables.py: 
-    - finalizar o modo como sera feito o **ordering** e o **search** de campos que foram incluidos com o ModelSerializer
-    - Alterar a forma como o ordering é feito, atualmento ele é ativado com o campo **order[0][column]** é diferente de "0" mas isto não é funcional
+(A) - User:
+        - Create user {cm:2023-06-01}
+        - Update user email {cm:2023-06-01}
+        - Update user password {cm:2023-06-03}
+        - Update user fields {cm:2023-06-03}
+        - Reset user password
 
-(A) - Update:
-    - Criar a interface de Form que será usada nos **Update Forms**
+(A) - Company:
+        - Create company
+        - Update company
 
-(A) - Authentication e Users:
-    - Register View
-        - Adicionar novos campos no registro
-    - SignUp View
-    - Login View
-    - Logout View
+(A) - Employees:
+        - Update employee (Own user)
+        - Update employee status (company user with permissions)
+        - delete employee
+        - set employee role
+        - create employee role
+        - update employee role
+        - delete employee role
 
+(A) - Departments:
+(A) - Customers:
 
 

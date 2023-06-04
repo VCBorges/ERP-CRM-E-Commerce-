@@ -14,7 +14,6 @@ from personal_project.settings import AUTH_USER_MODEL
 class Company(
     TimeStampedModel,
     AdressModel,
-    # CreatedByModel,
     models.Model,
 ):
     id = models.AutoField(primary_key=True)
@@ -30,9 +29,7 @@ class Company(
     def __str__(self):
         return self.name
     
-    def set_root(self, request: HttpRequest) -> None:
+    def set_root(self, user) -> None:
         if self.root is not None:
             raise Exception('Company root already been set')
-        self.root = request.user
-    
-    
+        self.root = user   

@@ -35,13 +35,18 @@ def get_model_verbose_name(model: Model) -> str:
     return model._meta.verbose_name.title()
 
 
+def update_instance_fields(instance: Model, data: dict) -> Model:
+    for key, value in data.items():
+        if value and hasattr(instance, key):
+            setattr(instance, key, value)
+    return instance
 
 
-def set_model_instance_fields(instance: Model, cleaned_data: dict, *args, **kwargs) -> None:
+def set_model_instance_fields(instance: Model, cleaned_data: dict, *args, **kwargs) -> Model:
     for field in instance._meta.fields:
         value = cleaned_data.get(field.name)
         setattr(instance, field.name, value)
-        
+    return instance    
         
 
 def set_fields_model_instance(instance: Model, cleaned_data: dict, *args, **kwargs) -> None:

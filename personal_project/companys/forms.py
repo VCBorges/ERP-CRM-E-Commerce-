@@ -1,12 +1,12 @@
 from django import forms
 from django.db import transaction
 
-from core.formsmixins import RequestFormMixin
+from core.formsmixins import RequestKwargFormMixin
 from companys.models import Company
 from users.utils import (
-    set_employee_company,
-    user_is_root,
-    employee_has_company,
+    set_current_employee_company,
+    current_user_is_root,
+    current_employee_has_company,
 )
 
 
@@ -15,7 +15,7 @@ from typing import Any, Dict
 
 
 class CreateCompanyForm(
-    RequestFormMixin,
+    RequestKwargFormMixin,
     forms.ModelForm
 ):
     class Meta:
@@ -38,22 +38,21 @@ class CreateCompanyForm(
         
     def clean(self) -> Dict[str, Any]:
         cleaned_data =  super().clean()
-        if user_is_root(self.request):
+        if current_user_is_root(self.request):
             raise forms.ValidationError(
-                'User already is company root'
+                "User already is company's root"
             )
-        if employee_has_company(self.request):
+        if current_employee_has_company(self.request):
             raise forms.ValidationError(
                 'Employee already has a company'
             )
         return cleaned_data
         
-        
     
     def save(self, commit: bool = True) -> Company:
         company: Company = super().save(commit=False)
-        company.set_root(self.request.user)
-        employee = set_employee_company(
+        company.set_root(user=self.request.user)
+        employee = set_current_employee_company(
             request=self.request,
             company=company
         )

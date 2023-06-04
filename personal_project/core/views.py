@@ -4,15 +4,15 @@ from core.viewmixins import (
     BaseContextTemplateViewMixin,
     BaseFormViewMixin,
     RequestFormKwargsMixin,
-    # RequestFilesFormKwargsMixin,
     BaseUpdateFormViewMixin,
     ModelFormMethodsMixin,
-    UpdateResquestFormKwargsMixin,
     CsrfExemptMixin,
 )
 
 
 
+
+# class BaseRequestFormView(
 class BaseRequestFormView(
     CsrfExemptMixin,
     ModelFormMethodsMixin,
@@ -21,6 +21,8 @@ class BaseRequestFormView(
     View,
 ):
     pass
+
+
 
 
 class BaseFormView(
@@ -32,11 +34,11 @@ class BaseFormView(
     pass
 
 
-
+# class BaseUpdateRequestFormView(
 class UpdateRequestModelFormView(
     CsrfExemptMixin,
     ModelFormMethodsMixin,
-    UpdateResquestFormKwargsMixin,
+    RequestFormKwargsMixin,
     BaseUpdateFormViewMixin,
     BaseFormViewMixin,
     View
