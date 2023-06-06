@@ -4,9 +4,9 @@ from django.db import transaction
 from core.formsmixins import RequestKwargFormMixin
 from companys.models import Company
 from users.utils import (
-    set_current_employee_company,
     current_user_is_root,
     current_employee_has_company,
+    get_current_employee
 )
 
 
@@ -52,10 +52,8 @@ class CreateCompanyForm(
     def save(self, commit: bool = True) -> Company:
         company: Company = super().save(commit=False)
         company.set_root(user=self.request.user)
-        employee = set_current_employee_company(
-            request=self.request,
-            company=company
-        )
+        employee = get_current_employee(self.request)
+        employee.set_company(company)
         if commit:
             with transaction.atomic():
                 company.save()

@@ -30,9 +30,11 @@ class User(AbstractUser):
     modified_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     group = models.CharField('User Group', max_length=255, null=True, blank=True, choices=Groups.choices, default=Groups.MEMBER)
     
+    
     @property
     def full_name(self):
         return f'{self.first_name} {self.middle_name or ""} {self.last_name}'
+    
     
     @property
     def age(self):
