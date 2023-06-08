@@ -69,8 +69,8 @@ def get_current_employee(request: HttpRequest) -> Employee:
     return request.user.employee
 
 
-def get_root_user_company_from_request(request: HttpRequest) -> Company | None:
-    return request.user.get_root_company()
+def get_current_root_company(request: HttpRequest) -> Company | None:
+    return request.user.root_company
 
 
 def get_current_user(request: HttpRequest) -> User:

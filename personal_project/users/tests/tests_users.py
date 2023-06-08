@@ -1,6 +1,7 @@
 from django.urls import reverse
 from django.test import RequestFactory
 
+from core.fixtures import auto_create_login_user
 from users.models import User
 from employees.models import Employee
 from core.factories import (
@@ -8,6 +9,7 @@ from core.factories import (
     get_test_view_response,
 )
 from users import views
+
 
 
 import json
@@ -77,56 +79,10 @@ def test_user_create_view(client):
     
 
 @pytest.mark.django_db
-def test_user_update_email_view(client):
+def test_user_update_email_view(auto_create_login_user):
     
-    form_data = {
-        'email': 'unittest@test.com',
-        'password1': '123qaz123',
-        'first_name': 'unittest',
-        'middle_name': 'unittest',
-        'last_name': 'unittest',
-        'document': '123456789',
-        'phone': '123456789',
-        'street': 'unittest',
-        'number': '123',
-        'city': 'unittest',
-        'state': 'unittest',
-        'country': 'unittest',
-        'gender': 'unittest',
-        'birthday': '1990-01-01',
-    }
+    client, user = auto_create_login_user()
     
-    response = client.post(
-        reverse('register'),
-        data=form_data
-    )
-    
-    del form_data['password1']
-    
-    user = User.objects.get(**form_data)
-    
-    response_data = json.loads(response.content.decode('utf-8'))
-    
-    assert response.status_code == 200
-    assert response_data['message'] == 'User created successfully.'
-    assert user.email == form_data['email']
-    assert user.first_name == form_data['first_name']
-    assert user.middle_name == form_data['middle_name']
-    assert user.last_name == form_data['last_name']
-    assert user.document == form_data['document']
-    assert user.phone == form_data['phone']
-    assert user.street == form_data['street']
-    assert user.number == form_data['number']
-    assert user.city == form_data['city']
-    assert user.state == form_data['state']
-    assert user.country == form_data['country']
-    assert user.gender == form_data['gender']
-    assert user.birthday == datetime.date(1990, 1, 1)
-    
-    client.force_login(user)
-    
-    assert user.is_authenticated
-
     form_data = {
         'email': 'unittest2@test.com',
     }
@@ -144,56 +100,10 @@ def test_user_update_email_view(client):
 
 
 @pytest.mark.django_db
-def test_user_update_password_view(client):
+def test_user_update_password_view(auto_create_login_user):
     
-    form_data = {
-        'email': 'unittest@test.com',
-        'password1': '123qaz123',
-        'first_name': 'unittest',
-        'middle_name': 'unittest',
-        'last_name': 'unittest',
-        'document': '123456789',
-        'phone': '123456789',
-        'street': 'unittest',
-        'number': '123',
-        'city': 'unittest',
-        'state': 'unittest',
-        'country': 'unittest',
-        'gender': 'unittest',
-        'birthday': '1990-01-01',
-    }
+    client, user = auto_create_login_user()
     
-    response = client.post(
-        reverse('register'),
-        data=form_data
-    )
-    
-    del form_data['password1']
-    
-    user = User.objects.get(**form_data)
-    
-    response_data = json.loads(response.content.decode('utf-8'))
-    
-    assert response.status_code == 200
-    assert response_data['message'] == 'User created successfully.'
-    assert user.email == form_data['email']
-    assert user.first_name == form_data['first_name']
-    assert user.middle_name == form_data['middle_name']
-    assert user.last_name == form_data['last_name']
-    assert user.document == form_data['document']
-    assert user.phone == form_data['phone']
-    assert user.street == form_data['street']
-    assert user.number == form_data['number']
-    assert user.city == form_data['city']
-    assert user.state == form_data['state']
-    assert user.country == form_data['country']
-    assert user.gender == form_data['gender']
-    assert user.birthday == datetime.date(1990, 1, 1)
-    
-    client.force_login(user)
-    
-    assert user.is_authenticated
-
     form_data = {
         'oldpassword': '123qaz123',
         'password1': '123qaz1234',
@@ -204,65 +114,18 @@ def test_user_update_password_view(client):
         reverse('update_user_password'),
         data=form_data
     )
-    # print(user.first_name)
     user.refresh_from_db()
-    # print(user.first_name)
     
     assert response.status_code == 200
     assert user.check_password('123qaz1234')
 
 
-@pytest.mark.django_db
-def test_user_update_fields_view(client):
-    
-    form_data = {
-        'email': 'unittest@test.com',
-        'password1': '123qaz123',
-        'first_name': 'unittest',
-        'middle_name': 'unittest',
-        'last_name': 'unittest',
-        'document': '123456789',
-        'phone': '123456789',
-        'street': 'unittest',
-        'number': '123',
-        'city': 'unittest',
-        'state': 'unittest',
-        'country': 'unittest',
-        'gender': 'unittest',
-        'birthday': '1990-01-01',
-    }
-    
-    response = client.post(
-        reverse('register'),
-        data=form_data
-    )
-    
-    del form_data['password1']
-    
-    user = User.objects.get(**form_data)
-    
-    response_data = json.loads(response.content.decode('utf-8'))
-    
-    assert response.status_code == 200
-    assert response_data['message'] == 'User created successfully.'
-    assert user.email == form_data['email']
-    assert user.first_name == form_data['first_name']
-    assert user.middle_name == form_data['middle_name']
-    assert user.last_name == form_data['last_name']
-    assert user.document == form_data['document']
-    assert user.phone == form_data['phone']
-    assert user.street == form_data['street']
-    assert user.number == form_data['number']
-    assert user.city == form_data['city']
-    assert user.state == form_data['state']
-    assert user.country == form_data['country']
-    assert user.gender == form_data['gender']
-    assert user.birthday == datetime.date(1990, 1, 1)
-    
-    client.force_login(user)
-    
-    assert user.is_authenticated
 
+@pytest.mark.django_db
+def test_user_update_fields_view(auto_create_login_user):
+    
+    client, user = auto_create_login_user()
+    
     form_data = {
         'first_name': 'unittest2',
         'middle_name': 'unittest2',
@@ -282,9 +145,7 @@ def test_user_update_fields_view(client):
         reverse('update_user_fields'),
         data=form_data
     )
-    print(user.first_name)
     user.refresh_from_db()
-    print(user.first_name)
     
     assert response.status_code == 200
     assert user.first_name == form_data['first_name']
@@ -299,4 +160,3 @@ def test_user_update_fields_view(client):
     assert user.country == form_data['country']
     assert user.gender == form_data['gender']
     assert user.birthday == datetime.date(1990, 1, 1)
-    

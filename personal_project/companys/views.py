@@ -3,7 +3,10 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from companys.forms import CreateCompanyForm
+from companys.forms import (
+    CreateCompanyForm,
+    UpdateCompanyForm,
+)
 
 from core.views import (
     BaseTemplateView,
@@ -21,6 +24,13 @@ from core.views import (
 class CompanyCreateView(BaseRequestFormView):
     
     form_class = CreateCompanyForm
-    valid_form_message = 'Company created successfully.'
-    invalid_form_message = 'There was an error creating the company. Please try again later.'
+    form_valid_message = 'Company created successfully.'
+    form_invalid_message = 'There was an error creating the company. Please try again later.'
+
+
+
+class UpdateCompanyView(BaseRequestFormView):
     
+    form_class = UpdateCompanyForm
+    form_valid_message = 'Company updated successfully.'
+    form_invalid_message = 'There was an error updating the company. Please try again later.'

@@ -14,7 +14,10 @@ class User(AbstractUser):
     class Groups(models.TextChoices):
         ADMINISTRATOR = 'administrator', 'Administrator'
         MEMBER = 'member', 'Member'
-    
+        # CLIENT = 'client', 'Client'
+        # COMPANY = 'company', 'Company'
+        # EMPLOYEE = 'employee', 'Employee'
+        
     middle_name = models.CharField('User Middle Name', max_length=255, null=True, blank=True)
     document = models.CharField('User Document', max_length=255, null=True, blank=True, unique=True)
     phone = models.CharField('User Phone', max_length=255, null=True, blank=True)

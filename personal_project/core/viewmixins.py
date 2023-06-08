@@ -100,7 +100,6 @@ class BaseFormViewMixin:
     
     
     def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
-        # print(f'request post {request.POST}')
         self.request = request
         form = self.get_form()
         try:

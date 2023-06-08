@@ -23,6 +23,8 @@ class UserRegistrationView(BaseFormView):
     form_valid_message = 'User created successfully.'
     form_invalid_message = 'There was an error creating the user. Please try again later.'
     
+    def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
+        return super().post(request, *args, **kwargs)
     
     def form_methods(self, form: ModelForm, *args, **kwargs) -> bool:
         form.save(
@@ -78,7 +80,6 @@ class LoginTemplateView(BaseTemplateView):
     template_name = 'users/login.html'
     
     def get(self, request, *args, **kwargs):
-        print(request.user)
         return super().get(request, *args, **kwargs)
     
     
