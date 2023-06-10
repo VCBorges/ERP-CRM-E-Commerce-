@@ -5,8 +5,12 @@ from core.behaviors import (
     TimeStampedModel,
     CreatedByModel,
 )
+# from users.models import User
 from companys.models import Company
 from employees.managers import EmployeeManager
+from core.utils import (
+    get_current_employee_company,
+)
 
 
 
@@ -19,25 +23,23 @@ class EmployeeRoles(
     name = models.CharField('Role Name', max_length=255, unique=True, null=True, blank=True)
     description = models.TextField('Role Description', null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='roles', null=True, blank=True)
-    created_by = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_roles', null=True, blank=True)
+    # department = models.ForeignKey('human_resources.Department', on_delete=models.CASCADE, related_name='roles', null=True, blank=True)
 
     
     def __str__(self):
         return self.name + ' - ' + self.company.name
     
     
-    def set_company(self, request) -> None:
-        if request.user.employee.company is None:
-            raise Exception('Employee has no company')
-        self.company = request.user.employee.company
+    def set_company(self, company: Company) -> None:
+        if self.company is not None:
+            raise Exception('Employee role already has a company')
+        self.company = company
         
         
-    def set_created_by(self, request) -> None:
+    def set_created_by(self, employee) -> None:
         if self.created_by is not None:
             raise Exception('Employee role already has a creator')
-        self.created_by = request.user
-        
-    
+        self.created_by = employee
     
         
 
@@ -50,6 +52,7 @@ class Employee(TimeStampedModel):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='employees', null=True, blank=True)
     role = models.ForeignKey(EmployeeRoles, on_delete=models.CASCADE, related_name='employee', null=True, blank=True)
     user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee', null=True, blank=True)
+    is_active = models.BooleanField('Employee is Active', default=True)
 
     objects = EmployeeManager()
 

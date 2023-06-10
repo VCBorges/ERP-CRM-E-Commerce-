@@ -9,7 +9,6 @@ from core.behaviors import (
 from personal_project.settings import AUTH_USER_MODEL
 
 
-# Create your models here.
 
 class Company(
     TimeStampedModel,

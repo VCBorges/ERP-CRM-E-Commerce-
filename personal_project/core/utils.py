@@ -3,9 +3,9 @@ from django.forms import Form
 from django.db.models import Model
 from django.http import HttpRequest
 
-from employees.models import Employee
+# from employees.models import Employee
 from companys.models import Company
-from users.models import User
+# from users.models import User
 
 
 from datetime import datetime
@@ -65,7 +65,7 @@ def get_now() -> datetime:
     return datetime.now()
 
 
-def get_current_employee(request: HttpRequest) -> Employee:
+def get_current_employee(request: HttpRequest):
     return request.user.employee
 
 
@@ -73,7 +73,7 @@ def get_current_root_company(request: HttpRequest) -> Company | None:
     return request.user.root_company
 
 
-def get_current_user(request: HttpRequest) -> User:
+def get_current_user(request: HttpRequest):
     return request.user
 
 
@@ -96,6 +96,6 @@ def current_user_is_root(request: HttpRequest) -> bool:
     return False
 
     
-def set_current_employee_company(request: HttpRequest, company: Company) -> Employee:
+def set_current_employee_company(request: HttpRequest, company: Company):
     request.user.employee.set_company(company)
     return request.user.employee

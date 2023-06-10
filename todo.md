@@ -6,8 +6,8 @@
         - Reset user password
 
 (A) - Company:
-        - Create company
-        - Update company
+        - Create company {cm:2023-06-05}
+        - Update company {cm:2023-06-08}
 
 (A) - Employees:
         - Update employee (Own user)
@@ -20,5 +20,7 @@
 
 (A) - Departments:
 (A) - Customers:
+(A) - Sales:
+(A) - Orders:
 
-
+(B) - Transfer Employee roles to Human Resources app as roles

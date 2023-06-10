@@ -1,7 +1,6 @@
 from django.forms import ModelForm
 from allauth.account.forms import LoginForm
 from django.contrib.auth.views import LogoutView
-from django.http import JsonResponse, QueryDict
 
 from core.views import (
     BaseTemplateView,
@@ -17,14 +16,20 @@ from users.forms import (
 
 
 
+class LoginTemplateView(BaseTemplateView):
+    
+    template_name = 'users/login.html'
+    
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
+
 class UserRegistrationView(BaseFormView):
     
     form_class = CreateUserForm
     form_valid_message = 'User created successfully.'
     form_invalid_message = 'There was an error creating the user. Please try again later.'
-    
-    def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
-        return super().post(request, *args, **kwargs)
     
     def form_methods(self, form: ModelForm, *args, **kwargs) -> bool:
         form.save(
@@ -60,6 +65,7 @@ class UpdateUserEmailView(BaseRequestFormView):
     form_invalid_message = 'There was an error updating the user email. Please try again later.'
     
     
+    
 class UpdateUserPasswordView(BaseRequestFormView):
     
     form_class = UpdateUserPasswordForm
@@ -74,12 +80,5 @@ class UpdateUserFieldsView(BaseRequestFormView):
     form_valid_message = 'User fields updated successfully.'
     form_invalid_message = 'There was an error updating the user fields. Please try again later.'
 
-
-class LoginTemplateView(BaseTemplateView):
-    
-    template_name = 'users/login.html'
-    
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
     
     

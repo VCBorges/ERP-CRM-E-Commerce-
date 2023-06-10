@@ -1,38 +1,35 @@
-# from django.http import JsonResponse, QueryDict
-# from django.views.generic import View, UpdateView
-# from django.views.generic import TemplateView
-# from django.views.decorators.csrf import csrf_exempt
-# from django.utils.decorators import method_decorator
+from django.http import JsonResponse, QueryDict
+from django.views.generic import View, UpdateView
+from django.views.generic import TemplateView
 
-# from core.viewmixins import RegularModelFormSubmissionViewMixin
-# from core.viewmixins import RegularTemplateViewMixin
-# from core.views import ModelFormSubmissionView, CreateRequestModelFormView
-# from employees.forms import CreateEmployeeRoleForm
+from core.views import (
+    BaseTemplateView,
+    BaseRequestFormView,
+)
+from employees.forms import (
+    CreateEmployeeRoleForm,
+    UpdateEmployeeRoleForm,
+    UpdateEmployeeForm
+    
+)
 
 
-# class EmployeeTemplateView(RegularTemplateViewMixin, TemplateView):
-    
-#     template_name = 'employees/employees.html'
-    
-#     # def get_context_data(self, **kwargs):
-#     #     return super().get_context_data(**kwargs)
-    
 
+class UpdateEmployeeView(BaseRequestFormView):
+    form_class = UpdateEmployeeForm
+    form_valid_message = 'Employee updated successfully.'
+    form_invalid_message = 'There was an error updating the employee. Please try again later.'
+
+
+
+class UpdateEmployeeRoleView(BaseRequestFormView):
+    form_class = UpdateEmployeeRoleForm
+    form_valid_message = 'Employee role updated successfully.'
+    form_invalid_message = 'There was an error updating the employee role. Please try again later.'
     
     
     
-# class CreateEmployeeRoleView(CreateRequestModelFormView):
-    
-#     form_class = CreateEmployeeRoleForm
-#     valid_form_message = 'Employee role created successfully.'
-#     invalid_form_message = 'There was an error creating the employee role. Please try again later.'
-    
-#     @method_decorator(csrf_exempt)
-#     def dispatch(self, request, *args, **kwargs):
-#         return super().dispatch(request, *args, **kwargs)
-    
-#     def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
-#         return super().post(request, *args, **kwargs)
-    
-    
-    
+class CreateEmployeeRoleView(BaseRequestFormView):
+    form_class = CreateEmployeeRoleForm
+    form_valid_message = 'Employee role created successfully.'
+    form_invalid_message = 'There was an error creating the employee role. Please try again later.'

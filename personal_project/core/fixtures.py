@@ -2,6 +2,7 @@ from django.urls import reverse
 
 from users.models import User
 from companys.models import Company
+from employees.models import EmployeeRoles
 
 
 import pytest
@@ -58,7 +59,6 @@ def auto_create_login_user(client):
             assert user.country == form_data['country']
             assert user.gender == form_data['gender']
             assert user.birthday == datetime.date(1990, 1, 1)
-            
 
        client.force_login(user)
        assert user.is_authenticated
@@ -121,4 +121,36 @@ def auto_create_company_login_user(auto_create_login_user):
        client.force_login(user)
        assert user.is_authenticated
        return client, user, company
+   return make_auto_login
+
+
+
+@pytest.fixture
+def auto_create_employee_role(auto_create_company_login_user):
+   def make_auto_login(user=None):
+       if user is None:
+           
+            client,user,company = auto_create_company_login_user()
+
+            form_data = {
+                'name': 'unittest',
+                'description': 'unittest',
+            }
+            
+            response = client.post(
+                reverse('create_employee_role'),
+                data=form_data
+            )
+            
+            employee_role = EmployeeRoles.objects.get(**form_data)
+            
+            assert response.status_code == 200
+            assert employee_role.name == form_data['name']
+            assert employee_role.description == form_data['description']
+            assert employee_role.company == company
+            assert employee_role.created_by == user.employee
+
+       client.force_login(user)
+       assert user.is_authenticated
+       return client, user, company, employee_role
    return make_auto_login

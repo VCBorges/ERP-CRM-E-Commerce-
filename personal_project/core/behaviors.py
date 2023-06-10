@@ -34,8 +34,8 @@ class CreatedByModel(models.Model):
     """
     Abstract base class model that provides created by
     """
-    created_by = models.OneToOneField('employees.Employee', on_delete=models.CASCADE, related_name='created_by', null=True, blank=True)
-    modified_by = models.OneToOneField('employees.Employee', on_delete=models.CASCADE, related_name='modified_by', null=True, blank=True)
+    created_by = models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='created_by', null=True, blank=True)
+    modified_by = models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='modified_by', null=True, blank=True)
 
     class Meta:
         abstract = True

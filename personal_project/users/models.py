@@ -69,8 +69,7 @@ class Administrator(User):
         verbose_name_plural = 'Administrators'
         
         
-
-
+        
 class Member(User):
     
     objects = MemberManager()
