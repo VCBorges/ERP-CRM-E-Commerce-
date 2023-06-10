@@ -12,4 +12,5 @@ class EmployeeManager(models.Manager):
             work_phone=user.phone,
             work_email=user.email,
         )
+        employee.save()
         return employee

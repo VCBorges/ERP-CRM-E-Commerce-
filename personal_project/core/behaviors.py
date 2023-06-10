@@ -34,8 +34,13 @@ class CreatedByModel(models.Model):
     """
     Abstract base class model that provides created by
     """
-    created_by = models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='created_by', null=True, blank=True)
-    modified_by = models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='modified_by', null=True, blank=True)
+    created_by = models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='%(class)s_created', null=True, blank=True)
+    modified_by = models.ForeignKey('employees.Employee', on_delete=models.CASCADE, related_name='%(class)s_modified', null=True, blank=True)
 
     class Meta:
         abstract = True
+        
+    def get_model_verbose_name(self):
+        return self._meta.verbose_name1
+    
+    

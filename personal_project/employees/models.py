@@ -23,7 +23,7 @@ class EmployeeRoles(
     name = models.CharField('Role Name', max_length=255, unique=True, null=True, blank=True)
     description = models.TextField('Role Description', null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='roles', null=True, blank=True)
-    # department = models.ForeignKey('human_resources.Department', on_delete=models.CASCADE, related_name='roles', null=True, blank=True)
+    department = models.ForeignKey('human_resources.Department', on_delete=models.CASCADE, related_name='roles', null=True, blank=True)
 
     
     def __str__(self):

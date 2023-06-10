@@ -47,11 +47,10 @@ class CreateUserForm(SignupForm):
                 instance=user, 
                 cleaned_data=self.cleaned_data
             )
-            employee = Employee.objects.create(
+            Employee.objects.create(
                 user=user,
             )
             user.save()
-            employee.save()
         except:
             user.delete()
             raise Exception("Error creating user.")
