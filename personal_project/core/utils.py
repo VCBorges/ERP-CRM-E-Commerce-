@@ -91,7 +91,7 @@ def current_employee_has_company(request: HttpRequest) -> bool:
 
 
 def current_user_is_root(request: HttpRequest) -> bool:
-    if request.user.is_root():
+    if request.user.is_root:
         return True
     return False
 

@@ -52,7 +52,7 @@ class User(AbstractUser):
         except Company.DoesNotExist:
             return None
     
-    
+    @property
     def is_root(self) -> bool:
         return self.root_company is not None
     

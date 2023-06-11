@@ -3,7 +3,11 @@ personal_project_env/
 .tool-versions
 __pycache__/
 migrations/
+others/
+.pytest_cache/
+db.sqlite3
 
+pg.py
 # Logs
 logs
 *.log

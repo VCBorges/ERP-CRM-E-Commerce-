@@ -28,7 +28,31 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# # Application definition
+# THIRD_PARTY_APPS = [
+#     'allauth',
+#     'allauth.account',
+# ]
+
+# LOCAL_APPS = [
+#     'core',
+#     'users',
+#     'companys',
+#     'employees',
+#     'customers',
+#     'human_resources',
+# ]
+
+# DJANGO_APPS = [
+#     'django.contrib.admin',
+#     'django.contrib.auth',
+#     'django.contrib.contenttypes',
+#     'django.contrib.sessions',
+#     'django.contrib.sites',
+# ]
+
+# INSTALLED_APPS = THIRD_PARTY_APPS + LOCAL_APPS + DJANGO_APPS
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

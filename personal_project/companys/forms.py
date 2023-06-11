@@ -3,7 +3,7 @@ from django.db import transaction
 
 from core.formsmixins import RequestKwargFormMixin
 from companys.models import Company
-from users.utils import (
+from core.utils import (
     current_user_is_root,
     current_employee_has_company,
     get_current_employee,

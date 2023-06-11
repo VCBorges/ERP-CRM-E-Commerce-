@@ -24,11 +24,11 @@ class EmployeeRoles(
     description = models.TextField('Role Description', null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='roles', null=True, blank=True)
     department = models.ForeignKey('human_resources.Department', on_delete=models.CASCADE, related_name='roles', null=True, blank=True)
-
+    
     
     def __str__(self):
         return self.name + ' - ' + self.company.name
-    
+
     
     def set_company(self, company: Company) -> None:
         if self.company is not None:
@@ -57,7 +57,7 @@ class Employee(TimeStampedModel):
     objects = EmployeeManager()
 
     def __str__(self):
-        return self.user.get_full_name() + ' - ' + self.company.name
+        return self.user.full_name + ' - ' + self.company.name
     
     def set_company(self, company: Company) -> None:
         if self.company is not None:
