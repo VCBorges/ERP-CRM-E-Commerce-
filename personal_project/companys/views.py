@@ -1,3 +1,4 @@
+from django.http import JsonResponse, QueryDict
 from django.views.generic import View, UpdateView
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
@@ -27,6 +28,9 @@ class CompanyCreateView(BaseRequestFormView):
     form_valid_message = 'Company created successfully.'
     form_invalid_message = 'There was an error creating the company. Please try again later.'
 
+    def post(self, request: QueryDict, *args, **kwargs) -> JsonResponse:
+        # print(f'User: {request.user}')
+        return super().post(request, *args, **kwargs)
 
 
 class UpdateCompanyView(BaseRequestFormView):

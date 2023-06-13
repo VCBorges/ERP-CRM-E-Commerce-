@@ -188,3 +188,10 @@ ACCOUNT_UNIQUE_EMAIL = True # new
 ACCOUNT_FORMS = {
     'signup': 'users.forms.CreateUserForm'
 }
+
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
