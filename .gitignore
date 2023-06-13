@@ -6,6 +6,7 @@ migrations/
 others/
 .pytest_cache/
 db.sqlite3
+todo.md
 
 pg.py
 # Logs
