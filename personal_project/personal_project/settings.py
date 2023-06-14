@@ -69,6 +69,13 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     
+    'rest_framework',
+    'rest_framework.authtoken',
+    # 'rest_auth',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+
+    
     #local apps
     'core',
     'users',
@@ -192,6 +199,9 @@ ACCOUNT_FORMS = {
 # DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+REST_USE_JWT = True

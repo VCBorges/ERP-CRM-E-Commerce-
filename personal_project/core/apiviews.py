@@ -3,9 +3,14 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework.mixins import ListModelMixin
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from core.datatables import DataTableServerSide
 from core.datatables import DataTableServerSideDRF
+from core.apiviewsmixins import (
+    BaseCreateAPIViewMixin,
+    BaseAuthMixin,
+)
 
 
 
@@ -46,3 +51,12 @@ class DataTableAPIView(ListModelMixin, GenericAPIView):
             serialized_data=serializer.data
         )
         return Response(response)
+    
+    
+
+class BaseCreateAPIView(
+    BaseAuthMixin,
+    BaseCreateAPIViewMixin,
+    APIView,
+):
+    pass
