@@ -4,9 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework import permissions
+from rest_framework import exceptions
+from rest_framework.permissions import IsAuthenticated
 
-from dj_rest_auth.views import LoginView
-
+from dj_rest_auth.views import LoginView, LogoutView
+# dj_rest_auth.serializers.PasswordChangeSerializer
+# from dj_rest_auth.registration.views import RegisterView
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -14,12 +17,15 @@ from django.utils.decorators import method_decorator
 from companys.api.serializers import CompanySerializer
 from users.api.serializers import (
     UserRegistrationSerializer,
-    UserLoginSerializer,
+    UpdateUserEmailSerializer,
+    UpdateUserPasswordSerializer,
+    UpdateUserFieldsSerializer,
 )
-from core.apiviews import BaseCreateAPIView
+from core.apiviews import (
+    BaseCreateAPIView,
+    BaseUpdateUserAPIView,
+)
 
-
-import traceback
 
 
 
@@ -30,58 +36,23 @@ class UserRegistrationAPI(BaseCreateAPIView):
         serializer.save(request=self.request)
 
 
-# class UserRegistrationAPI(APIView):
-    
-#     # permission_classes = (permissions.AllowAny)
-#     # authentication_classes = (BasicAuthentication,)
-#     # csrf_exempt = True
-    
-#     def post(self, request, format=None):
-#         try:
-#             serializer = UserRegistrationSerializer(
-#                 data=request.data,
-#             )
-#             if serializer.is_valid():
-#                 serializer.save(request=request)
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             else:
-#                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         except Exception as e:
-#             print(f'Error: {str(e)}')
-#             traceback.print_exc()
-#             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+class UpdateUserEmailAPI(BaseUpdateUserAPIView):
+    serializer_class = UpdateUserEmailSerializer
     
     
-#     def get(self, request, format=None):
-#         print(f'User: {request.user}')
-#         print(f'Headers: {request.headers}')
-#         return Response({'hello': 'world'}, status=status.HTTP_200_OK)
+class UpdateUserPasswordAPI(BaseUpdateUserAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateUserPasswordSerializer
+    
+    def get_valid_response_data(self, *args, **kwargs) -> dict:
+        return {'detail': 'Password updated successfully.'}
+    
+
+class UserLogoutAPI(LogoutView):
+    pass
 
 
-# my_tuple = ('1')
-# print(my_tuple) 
-# print(type(my_tuple))
-
-class UserLoginAPI(APIView):
+class UpdateUserFieldsAPI(BaseUpdateUserAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UpdateUserFieldsSerializer
     
-    def post(self, request, format=None):
-        try:
-            # print(f'User: {request.user}')
-            serializer = UserLoginSerializer(
-                data=request.data,
-                context={'request': request}
-            )
-            if serializer.is_valid():
-                serializer.save(request=request)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print(f'Error: {str(e)}')
-            traceback.print_exc()
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
-    
-    def get(self, request, format=None):
-        print(f'User: {request.user}')
-        return Response({'hello': 'world'}, status=status.HTTP_200_OK)

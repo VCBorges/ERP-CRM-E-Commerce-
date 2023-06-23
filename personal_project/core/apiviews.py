@@ -8,7 +8,8 @@ from rest_framework.views import APIView
 from core.datatables import DataTableServerSide
 from core.datatables import DataTableServerSideDRF
 from core.apiviewsmixins import (
-    BaseCreateAPIViewMixin,
+    BaseCreateAPIMixin,
+    BaseUpdateUserAPIMixin,
     BaseAuthMixin,
 )
 
@@ -56,7 +57,17 @@ class DataTableAPIView(ListModelMixin, GenericAPIView):
 
 class BaseCreateAPIView(
     BaseAuthMixin,
-    BaseCreateAPIViewMixin,
+    BaseCreateAPIMixin,
     APIView,
 ):
-    pass
+    DEBUG: bool = True
+    
+    
+class BaseUpdateUserAPIView(
+    BaseAuthMixin,
+    BaseUpdateUserAPIMixin,
+    APIView,
+):
+    DEBUG: bool = True
+    allowed_methods = ['PUT']
+    http_method_names = ['put']

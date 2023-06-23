@@ -5,7 +5,6 @@ from allauth.account.models import EmailAddress
 from django.db import transaction
 from allauth.account.forms import ChangePasswordForm
 
-from dj_rest_auth.serializers import LoginSerializer
 
 from core.formsmixins import (
     RequestKwargFormMixin,

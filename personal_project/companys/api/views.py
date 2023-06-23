@@ -21,3 +21,7 @@ import traceback
 class CreateCompanyAPI(BaseCreateAPIView):
 
     serializer_class = CompanySerializer
+    
+    def get(self, request, format=None):
+        print(f'user email: {request.user.emailaddress_set.all()}')
+        return Response({'data': 'get'})
